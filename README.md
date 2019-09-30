@@ -7,23 +7,24 @@ Initial fork from [electron-titlebar-windows](https://github.com/sidneys/electro
 
 Supported electron version `^1.8.8 || ^4.2.11 || >=5.0.0`.
 
-![screen](https://raw.githubusercontent.com/popzelife/electron-custom-titlebar/master/screen.png)
-
-## Table of Content
-
-1. [Installation](#installation)
-2. [Usage](#usage)
-3. [API](#api)
-4. [Contributing](#contributing)
-5. [License](#license)
-
-## Installation
-
 ```
 yarn add electron-custom-titlebar
 
 npm install electron-custom-titlebar --save
 ```
+
+![screen](https://raw.githubusercontent.com/popzelife/electron-custom-titlebar/master/screen.png)
+![screen2](https://raw.githubusercontent.com/popzelife/electron-custom-titlebar/master/screen2.png)
+
+## Table of Content
+
+1. [Usage](#usage)
+2. [API](#api)
+3. [Contributing](#contributing)
+4. [License](#license)
+
+## Installation
+
 
 ## Usage
 
