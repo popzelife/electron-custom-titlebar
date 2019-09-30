@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body style="background: rgb(50, 50, 50); margin: 0; padding: 0;">
+<script>
+    const electronTitlebarWindows = require('..');
+    const { remote, ipcRenderer, shell } = require('electron');
+    const { openExternal } = shell;
+
+    const appName = 'Electron';
+    const showTrayIcon = true;
+    const showUserStatusInTray = true;
+    const showFullScreen = false;
+    const showMenuBar = true;
+    const showServerList = false;
+    const showWindowOnUnreadChanged = true;
+    const defaultMenu = [{
+    label: process.platform === 'darwin' ? appName : 'File',
+    submenu: [
+      ...(process.platform === 'darwin' ? [
+        {
+          label: `About ${appName}`,
+          click: () => events.emit('about'),
+        },
+        {
+          type: 'separator',
+        },
+        {
+          submenu: [],
+          role: 'services',
+        },
+        {
+          type: 'separator',
+        },
+        {
+          accelerator: 'Command+H',
+          role: 'hide',
+        },
+        {
+          accelerator: 'Command+Alt+H',
+          role: 'hideothers',
+        },
+        {
+          role: 'unhide',
+        },
+        {
+          type: 'separator',
+        },
+      ] : []),
+      {
+       label: 'Preferences',
+       accelerator: 'CommandOrControl+,',
+       click: () => events.emit('preferences'),
+      },
+      ...(process.platform !== 'darwin' ? [
+        {
+          label: 'Add new server',
+          accelerator: 'CommandOrControl+N',
+          click: () => events.emit('add-new-server'),
+        },
+      ] : []),
+      {
+        type: 'separator',
+      },
+      {
+        id: 'quit',
+        label: `Quit ${appName}`,
+        accelerator: 'CommandOrControl+Q',
+        click: () => remote.getCurrentWindow().close(),
+      },
+    ],
+  },
+  {
+    label: 'Edit',
+    submenu: [
+      {
+        label: 'Undo',
+        accelerator: 'CommandOrControl+Z',
+        role: 'undo',
+      },
+      {
+        label: 'Redo',
+        accelerator: process.platform === 'win32' ? 'Control+Y' : 'CommandOrControl+Shift+Z',
+        role: 'redo',
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: 'Cut',
+        accelerator: 'CommandOrControl+X',
+        role: 'cut',
+      },
+      {
+        label: 'Copy',
+        accelerator: 'CommandOrControl+C',
+        role: 'copy',
+      },
+      {
+        label: 'Paste',
+        accelerator: 'CommandOrControl+V',
+        role: 'paste',
+      },
+      {
+        label: 'Select all',
+        accelerator: 'CommandOrControl+A',
+        role: 'selectall',
+      },
+    ],
+  },
+  {
+        label: 'Color',
+        submenu:
+        [{
+            label: 'Light',
+            type: 'radio',
+            checked: false,
+            click: () => { document.querySelector('html').style.background = 'rgb(240,240,240)'; }
+        },
+        {
+            label: 'Dark',
+            type: 'radio',
+            checked: true,
+            click: () => { document.querySelector('html').style.background = 'rgb(64,64,64)'; }
+        },
+        {
+            label: 'Black',
+            type: 'radio',
+            checked: false,
+            click: () => { document.querySelector('html').style.background = 'rgb(0,0,0)'; }
+        }]
+    },
+    {
+        label: 'Disabled',
+        enabled: false,
+        submenu:
+        [{
+            label: 'Light',
+            type: 'radio',
+            checked: false,
+            click: () => { document.querySelector('html').style.background = 'rgb(240,240,240)'; }
+        }]
+    },
+  {
+    label: 'View',
+    submenu: [
+      {
+        label: 'Reload',
+        accelerator: 'CommandOrControl+R',
+        click: () => events.emit('reload-server'),
+      },
+      {
+        label: 'Reload ignoring cache',
+        click: () => events.emit('reload-server', { ignoringCache: true }),
+      },
+      {
+        label: 'Clear trusted certificates',
+        click: () => events.emit('reload-server', { ignoringCache: true, clearCertificates: true }),
+      },
+      {
+        label: 'Open DevTools',
+        accelerator: process.platform === 'darwin' ? 'Command+Alt+I' : 'Ctrl+Shift+I',
+        click: () => remote.getCurrentWindow().openDevTools(),
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: 'Back',
+        accelerator: process.platform === 'darwin' ? 'Command+[' : 'Alt+Left',
+        click: () => events.emit('go-back'),
+      },
+      {
+        label: 'Forward',
+        accelerator: process.platform === 'darwin' ? 'Command+]' : 'Alt+Right',
+        click: () => events.emit('go-forward'),
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: 'Tray icon',
+        type: 'checkbox',
+        checked: showTrayIcon,
+        click: () => events.emit('toggle', 'showTrayIcon'),
+      },
+      {
+        label: 'User status in tray',
+        type: 'checkbox',
+        enabled: showTrayIcon,
+        checked: showTrayIcon && showUserStatusInTray,
+        click: () => events.emit('toggle', 'showUserStatusInTray'),
+      },
+      ...(process.platform === 'darwin' ? [
+        {
+          label: 'Full screen',
+          type: 'checkbox',
+          checked: showFullScreen,
+          accelerator: 'Control+Command+F',
+          click: () => events.emit('toggle', 'showFullScreen'),
+        },
+      ] : [
+        {
+          label: 'Menu bar',
+          type: 'checkbox',
+          checked: showMenuBar,
+          click: () => events.emit('toggle', 'showMenuBar'),
+        },
+      ]),
+      {
+        label: 'Server list',
+        type: 'checkbox',
+        checked: showServerList,
+        click: () => events.emit('toggle', 'showServerList'),
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: 'Reset zoom',
+        accelerator: 'CommandOrControl+0',
+        role: 'resetzoom',
+      },
+      {
+        label: 'Zoom in',
+        accelerator: 'CommandOrControl++',
+        role: 'zoomin',
+      },
+      {
+        label: 'Zoom out',
+        accelerator: 'CommandOrControl+-',
+        role: 'zoomout',
+      },
+    ],
+  },
+  {
+    label: 'Window',
+    id: 'window',
+    role: 'window',
+    submenu: [
+      ...(process.platform === 'darwin' ? [
+        {
+          label: 'Add new server',
+          accelerator: 'CommandOrControl+N',
+          click: () => events.emit('add-new-server'),
+        },
+        {
+          type: 'separator',
+        },
+      ] : []),
+    //   ...servers.map((host, i) => ({
+    //     label: host.title.replace(/&/g, '&&'),
+    //     type: currentServerUrl ? 'radio' : 'normal',
+    //     checked: currentServerUrl === host.url,
+    //     accelerator: `CommandOrControl+${i + 1}`,
+    //     id: host.url,
+    //     click: () => events.emit('select-server', host),
+    //   })),
+    //   {
+    //     type: 'separator',
+    //   },
+      {
+        label: 'Reload',
+        accelerator: 'CommandOrControl+Shift+R',
+        click: () => events.emit('reload-app'),
+      },
+      {
+        label: 'Toggle DevTools',
+        click: () => remote.getCurrentWindow().openDevTools({ mode: 'undocked' }),
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: 'Show on unread messages',
+        type: 'checkbox',
+        checked: showWindowOnUnreadChanged,
+        click: () => events.emit('toggle', 'showWindowOnUnreadChanged'),
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: 'Minimize',
+        accelerator: 'CommandOrControl+M',
+        role: 'minimize',
+      },
+      {
+        label: 'Close',
+        accelerator: 'CommandOrControl+W',
+        role: 'close',
+      },
+    ],
+  },
+  {
+    label: 'Help',
+    role: 'help',
+    submenu: [
+      {
+        label: 'Knowledge base',
+        click: () => openExternal( 'https://github.com/talkspiritlab/electron-titlebar-windows/README.ME'),
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: 'Report issue',
+        click: () => openExternal('https://github.com/talkspiritlab/electron-titlebar-windows/issues'),
+      },
+      {
+        label: 'Reset app data',
+        click: () => events.emit('reset-app-data'),
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: 'Learn more',
+        click: () => openExternal( 'https://github.com/talkspiritlab/electron-titlebar-windows'),
+      },
+      ...(process.platform !== 'darwin' ? [
+        {
+          id: 'about',
+          label: `About ${appName}`,
+          click: () => events.emit('about'),
+        },
+      ] : []),
+    ],
+  }]
+
+    /** Options */
+    let titlebar = new electronTitlebarWindows({
+        darkMode: true,
+        color: 'rgb(220, 200, 200)',
+        backgroundColor: 'rgb(24, 33, 38)',
+        draggable: true,
+        fullscreen: false,
+        contextMenu: true,
+        title: 'Titlebar',
+        icon: './logo.png',
+        menu: defaultMenu,
+    });
+
+    /**
+     * DOM
+     */
+    titlebar.appendTo();
+
+
+    /** Event#close */
+    titlebar.on('close', () => {
+        console.info('close');
+
+        remote.getCurrentWindow().close();
+    });
+
+    /** Event#fullscreen */
+    titlebar.on('fullscreen', () => {
+        console.info('fullscreen');
+
+    //     titlebar.update({
+    //       darkMode: true,
+    //       color: 'rgb(220, 200, 200)',
+    //       backgroundColor: 'rgb(24, 33, 38)',
+    //       draggable: true,
+    //       fullscreen: false,
+    //       contextMenu: true,
+    //       title: 'Titlebar',
+    //       icon: './logo.png',
+    //       menu: defaultMenu,
+    //   });
+
+        remote.getCurrentWindow().setFullScreen(true);
+    });
+
+    /** Event#minimize */
+    titlebar.on('minimize', () => {
+        console.info('minimize');
+
+        remote.getCurrentWindow().minimize();
+    });
+
+    /** Event#maximize */
+    titlebar.on('maximize', () => {
+        console.info('maximize');
+
+        remote.getCurrentWindow().setFullScreen(false);
+    });
+</script>
+</body>
+</html>

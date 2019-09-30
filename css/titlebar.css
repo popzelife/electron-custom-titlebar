@@ -1,0 +1,255 @@
+.titlebar-container
+{
+    padding: 2px 2px 0 2px;
+    margin: 0;
+    width: 100%;
+}
+
+.titlebar
+{
+    display: flex;
+    position: relative;
+    height: 30px;
+    padding: 0;
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 400;
+    width: 100%;
+}
+
+.titlebar.draggable
+{
+    -webkit-app-region: drag;
+}
+
+.titlebar-title
+{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 6px;
+}
+
+.titlebar-menu
+{
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    overflow-x: hidden;
+    margin-right: 138px;
+}
+/* Tiles */
+.titlebar-menu_tiles > .titlebar-menu_tiles-inner
+{
+    padding: 0 10px;
+    line-height: 30px;
+    cursor: default;
+    user-select: none;
+}
+.titlebar-menu_tiles:not(.disabled):hover
+{
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+.titlebar-light .titlebar-menu_tiles:not(.disabled):hover
+{
+    background-color: rgb(30, 30, 30);
+    color: rgb(255, 255, 255);
+}
+/* Options */
+.titlebar-menu_options
+{
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    max-width: 300px;
+    min-width: 150px;
+    max-height: calc(95vh - 30px);
+    overflow-y: overlay;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px;
+}
+.titlebar-light .titlebar-menu_options
+{
+    background-color: rgb(30, 30, 30);
+    color: rgb(255, 255, 255);
+}
+.titlebar.draggable .titlebar-menu_options
+{
+    -webkit-app-region: none;
+}
+/* Tile */
+.titlebar-menu_tile
+{
+    cursor: default;
+    padding: 6px 18px;
+    margin: 0 2px 0 6px;
+    line-height: initial;
+    display: flex;
+    justify-content: space-between;
+}
+.titlebar-menu_tile:first-of-type
+{
+    margin-top: 6px;
+}
+.titlebar-menu_tile:last-of-type
+{
+    margin-bottom: 6px;
+}
+.titlebar-menu_tile:not(.disabled):hover
+{
+    background-color: #0073ef;
+    color: white;
+}
+.titlebar-menu_tile_radio, .titlebar-menu_tile_checkbox {
+    position: absolute;
+    left: 5px;
+    margin-top: 2px;
+    height: 10px;
+    width: 10px;
+    background-color: transparent;
+    border: 0;
+}
+.titlebar-menu_tile_label
+{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.titlebar-menu_tile_accelerator
+{
+    word-break: keep-all;
+    padding-left: 20px;
+    color: dimgray;
+}
+.titlebar-menu_separator
+{
+    border-top: 1px solid darkgrey;
+    height: 1px;
+    margin: 6px 12px;
+}
+.titlebar-light .titlebar-menu_separator
+{
+    border-top: 1px solid grey;
+}
+.titlebar-menu .disabled {
+    color: grey;
+}
+
+.titlebar-icon
+{
+    height: 60%;
+    padding-right: 6px;
+}
+
+.titlebar-controls
+{
+    text-align: left;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 32px;
+}
+
+.titlebar:after,
+.titlebar-controls:after
+{
+    content: ' ';
+    display: table;
+    clear: both;
+}
+
+.titlebar-minimize,
+.titlebar-resize,
+.titlebar-close
+{
+    float: left;
+    width: 45px;
+    height: 31px;
+    margin: 1px 1px 0 0;
+    text-align: center;
+    line-height: 29px;
+
+    -webkit-transition: background-color .2s;
+    -moz-transition: background-color .2s;
+    -ms-transition: background-color .2s;
+    -o-transition: background-color .2s;
+    transition: background-color .2s;
+}
+
+.titlebar.draggable .titlebar-minimize,
+.titlebar.draggable .titlebar-resize,
+.titlebar.draggable .titlebar-close,
+.titlebar.draggable .titlebar-menu_tiles
+{
+    -webkit-app-region: no-drag;
+}
+
+.titlebar-minimize svg,
+.titlebar-resize svg.maximize-svg,
+.titlebar-resize svg.fullscreen-svg,
+.titlebar-close svg
+{
+    width: 10px;
+    height: 10px;
+    shape-rendering: crispEdges;
+}
+
+.titlebar-close svg polygon
+{
+    -webkit-transition: fill .2s;
+    -moz-transition: fill .2s;
+    -ms-transition: fill .2s;
+    -o-transition: fill .2s;
+    transition: fill .2s;
+}
+
+.titlebar:not(.fullscreen) svg.maximize-svg
+{
+    display: none;
+}
+
+.titlebar.fullscreen svg.fullscreen-svg
+{
+    display: none;
+}
+
+.titlebar-minimize:hover,
+.titlebar-resize:hover,
+.titlebar-fullscreen:hover
+{
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.titlebar-light .titlebar-minimize:hover,
+.titlebar-light .titlebar-resize:hover,
+.titlebar-light .titlebar-fullscreen:hover
+{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.titlebar-close:hover
+{
+    background-color: rgba(232, 17, 35, 0.9);
+}
+
+.titlebar-close:hover svg polygon
+{
+    fill: rgba(255, 255, 255, 1);
+}
+
+.titlebar-light .titlebar-close:hover
+{
+    fill: rgba(0, 0, 0, 1);
+}
+
+.titlebar-light svg polygon,
+.titlebar-light svg rect,
+.titlebar-light svg > path
+{
+    fill: rgba(255, 255, 255, 1);
+}
+
+.titlebar-light .titlebar-close:hover
+{
+    background-color: rgba(232, 17, 35, 0.9);
+}
