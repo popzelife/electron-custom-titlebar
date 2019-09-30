@@ -1,11 +1,12 @@
-# Electron Titlebar
+
+# Electron Custom Titlebar [![NPM version](https://img.shields.io/npm/v/electron-custom-titlebar)](https://www.npmjs.com/package/electron-custom-titlebar)[![Issues](https://img.shields.io/github/issues/popzelife/electron-custom-titlebar)](https://github.com/popzelife/electron-custom-titlebar/issues)[![License](https://img.shields.io/npm/l/electron-custom-titlebar)](https://github.com/popzelife/electron-custom-titlebar/blob/master/LICENSE)
 
 **Adds CSS-based UI title bars to any Electron-based desktop app.**
-Fully customisable with menu implementation. Menu can be use as remote contextMenu from electron or just customizable CSS.
+Fully customizable with menu implementation. Menu can be use as remote contextMenu from electron or stylized with CSS.
 
 Initial fork from [electron-titlebar-windows](https://github.com/sidneys/electron-titlebar-windows), now as independent version.
 
-Supported electron version `^1.8.8 || ^4.2.11 || >=5.0.0`.
+Electron version supported : `^1.8.8 || ^4.2.11 || >=5.0.0`.
 
 ```
 yarn add electron-custom-titlebar
