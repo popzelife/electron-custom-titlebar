@@ -2,19 +2,38 @@
 {
     padding: 2px 2px 0 2px;
     margin: 0;
-    width: 100%;
+    width: calc(100% - 4px);
 }
 
 .titlebar
 {
     display: flex;
     position: relative;
-    height: 30px;
+    height: var(--titlebar-height);
     padding: 0;
-    font-size: 14px;
+    font-size: var(--titlebar-font-size);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 400;
     width: 100%;
+
+    --titlebar-height: 30px;
+    --menu-height: 30px;
+    --titlebar-font-size: 14px;
+    --menu-font-size: 14px;
+}
+
+.titlebar ::-webkit-scrollbar {
+    background: #1d1d1db4;
+}
+
+.titlebar ::-webkit-scrollbar-thumb {
+    background: #ffffff55;
+    -webkit-border-radius: 1ex;
+    border-radius: 1ex;
+}
+
+.titlebar ::-webkit-scrollbar-corner {
+    background: #000;
 }
 
 .titlebar.draggable
@@ -42,7 +61,7 @@
 .titlebar-menu_tiles > .titlebar-menu_tiles-inner
 {
     padding: 0 10px;
-    line-height: 30px;
+    line-height: var(--titlebar-height);
     cursor: default;
     user-select: none;
 }
@@ -59,13 +78,15 @@
 /* Options */
 .titlebar-menu_options
 {
+    font-size: var(--titlebar-font-size);
     position: absolute;
     background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
     max-width: 300px;
     min-width: 150px;
-    max-height: calc(95vh - 30px);
+    max-height: calc(95vh - var(--menu-height));
     overflow-y: overlay;
+    overflow-x: hidden;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px;
 }
 .titlebar-light .titlebar-menu_options
@@ -104,8 +125,8 @@
     position: absolute;
     left: 5px;
     margin-top: 2px;
-    height: 10px;
-    width: 10px;
+    height: calc(var(--menu-height) / 3);
+    width: calc(var(--menu-height) / 3);
     background-color: transparent;
     border: 0;
 }
@@ -147,7 +168,7 @@
     position: fixed;
     top: 0;
     right: 0;
-    height: 32px;
+    height: calc(2px + var(--titlebar-height));
 }
 
 .titlebar:after,
@@ -163,17 +184,16 @@
 .titlebar-close
 {
     float: left;
-    width: 45px;
-    height: 31px;
-    margin: 1px 1px 0 0;
+    width: calc(var(--titlebar-height) * 1.5);
+    height: calc(1px + var(--titlebar-height));
     text-align: center;
-    line-height: 29px;
+    line-height: calc(var(--titlebar-height) - 1px);
 
-    -webkit-transition: background-color .2s;
-    -moz-transition: background-color .2s;
-    -ms-transition: background-color .2s;
-    -o-transition: background-color .2s;
-    transition: background-color .2s;
+    -webkit-transition: background-color .3s ease-in;
+    -moz-transition: background-color .3s ease-in;
+    -ms-transition: background-color .3s ease-in;
+    -o-transition: background-color .3s ease-in;
+    transition: background-color .3s ease-in;
 }
 
 .titlebar.draggable .titlebar-minimize,
@@ -189,8 +209,8 @@
 .titlebar-resize svg.fullscreen-svg,
 .titlebar-close svg
 {
-    width: 10px;
-    height: 10px;
+    width: calc(var(--titlebar-height) / 3);
+    height: calc(var(--titlebar-height) / 3);
     shape-rendering: crispEdges;
 }
 
