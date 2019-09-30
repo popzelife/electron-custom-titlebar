@@ -242,25 +242,14 @@
     submenu: [
       ...(process.platform === 'darwin' ? [
         {
-          label: 'Add new server',
+          label: 'Add new page',
           accelerator: 'CommandOrControl+N',
-          click: () => events.emit('add-new-server'),
+          click: () => events.emit('add-new-page'),
         },
         {
           type: 'separator',
         },
       ] : []),
-    //   ...servers.map((host, i) => ({
-    //     label: host.title.replace(/&/g, '&&'),
-    //     type: currentServerUrl ? 'radio' : 'normal',
-    //     checked: currentServerUrl === host.url,
-    //     accelerator: `CommandOrControl+${i + 1}`,
-    //     id: host.url,
-    //     click: () => events.emit('select-server', host),
-    //   })),
-    //   {
-    //     type: 'separator',
-    //   },
       {
         label: 'Reload',
         accelerator: 'CommandOrControl+Shift+R',
@@ -300,14 +289,14 @@
     submenu: [
       {
         label: 'Knowledge base',
-        click: () => openExternal( 'https://github.com/talkspiritlab/electron-titlebar-windows/README.ME'),
+        click: () => openExternal('https://github.com/popzelife/electron-custom-titlebar/blob/master/README.md'),
       },
       {
         type: 'separator',
       },
       {
         label: 'Report issue',
-        click: () => openExternal('https://github.com/talkspiritlab/electron-titlebar-windows/issues'),
+        click: () => openExternal('https://github.com/popzelife/electron-custom-titlebar/issues'),
       },
       {
         label: 'Reset app data',
