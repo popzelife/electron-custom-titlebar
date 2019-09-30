@@ -7,7 +7,7 @@ Initial fork from [electron-titlebar-windows](https://github.com/sidneys/electro
 
 Supported electron version `^1.8.8 || ^4.2.11 || >=5.0.0`.
 
-![screen](screen.png)
+![screen](https://raw.githubusercontent.com/popzelife/electron-custom-titlebar/master/screen.png)
 
 ## Table of Content
 

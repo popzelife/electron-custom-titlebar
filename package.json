@@ -1,11 +1,12 @@
 {
-  "name": "electron-titlebar-windows",
+  "name": "electron-custom-titlebar",
   "version": "4.0.0",
   "description": "Adds CSS-based UI title bars to any Electron-based desktop app",
   "license": "MIT",
-  "homepage": "https://a.github.io/electron-titlebar-windows",
+  "homepage": "https://github.com/popzelife/electron-custom-titlebar.git",
   "author": {
     "name": "Quentin Fremeaux",
+    "email": "quentin.f.60@gmail.com",
     "url": "https://taurus.sh"
   },
   "repository": {
@@ -50,5 +51,12 @@
   "scripts": {
     "start": "./node_modules/.bin/electron ./app/main.js",
     "test": "mocha"
-  }
+  },
+  "files": [
+    "/lib",
+    "/html",
+    "/css",
+    "README.md",
+    "LICENSE"
+  ]
 }
