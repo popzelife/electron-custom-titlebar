@@ -1,8 +1,7 @@
 
 # Electron Custom Titlebar [![NPM version](https://img.shields.io/npm/v/electron-custom-titlebar)](https://www.npmjs.com/package/electron-custom-titlebar)[![Issues](https://img.shields.io/github/issues/popzelife/electron-custom-titlebar)](https://github.com/popzelife/electron-custom-titlebar/issues)[![License](https://img.shields.io/npm/l/electron-custom-titlebar)](https://github.com/popzelife/electron-custom-titlebar/blob/master/LICENSE)
 
-**Adds CSS-based UI title bars to any Electron-based desktop app.**
-Fully customizable with menu implementation. Menu can be use as remote contextMenu from electron or stylized with CSS.
+**Adds CSS-based UI title bars to any Electron-based desktop app.** Lightweight and customizable with menu implementation like VS Code. Menu can be use as remote contextMenu from electron or stylized with CSS.
 
 Initial fork from [electron-titlebar-windows](https://github.com/sidneys/electron-titlebar-windows), now as independent version.
 
@@ -14,7 +13,9 @@ yarn add electron-custom-titlebar
 npm install electron-custom-titlebar --save
 ```
 
+#### macOS
 ![screen](https://raw.githubusercontent.com/popzelife/electron-custom-titlebar/master/screen.png)
+#### Windows
 ![screen2](https://raw.githubusercontent.com/popzelife/electron-custom-titlebar/master/screen2.png)
 
 ## Table of Content
@@ -22,7 +23,8 @@ npm install electron-custom-titlebar --save
 1. [Usage](#usage)
 2. [API](#api)
 3. [Contributing](#contributing)
-4. [License](#license)
+4. [Usecases](#usecases)
+5. [License](#license)
 
 ## Installation
 
@@ -35,6 +37,31 @@ The module takes a single optional argument `options` and exports the `TitleBar`
 import ElectronTitlebar from 'electron-custom-titlebar';
 
 const titlebar = new ElectronTitlebar({ ...options });
+
+const contextElement = document.querySelector('#titlebarRegion');
+titlebar.appendTo(contextElement);
+
+// Dispatch control actions to currentWindow
+titlebar.on('close', () => { remote.getCurrentWindow().close(); });
+titlebar.on('fullscreen', () => { remote.getCurrentWindow().maximize(); });
+titlebar.on('minimize', () => { remote.getCurrentWindow().minimize(); });
+titlebar.on('maximize', () => { remote.getCurrentWindow().restore(); });
+
+// Update menu when electron contextMenu has changed
+// menus files handle template and actions for app
+const { menus } = remote.require('./main');
+
+menus.on('update', () => {
+    const updatedMenu = menus.getMenuTemplate();
+    titlebar.update({ ...titlebar.options, menu: updatedMenu });
+});
+```
+
+```html
+<body>
+    <div id="titlebarRegion" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 5"></div>
+    <div id="app"></div>
+</body>
 ```
 
 Properties of `options`:
@@ -48,6 +75,8 @@ Properties of `options`:
  - (optional) **menu** - `Object` - **The array of menu items following the Electron Menu Object Documentation/Template**
  - (optional) **onDoubleClick** - `Boolean` - **Double clicking on titlebar enable to resize window in fullscreen mode. Default to false**
  - (optional) **contextMenu** - `Boolean` - **Use internal contextMenu of Electron. Useful if using browserView. Default to false**
+
+*Note:* with a remote contextMenu, there are some UI limitations. Once user first clicked on a tile and context menu opened, the main thread is hanged and user should reclick on an other tile to open the new menu options. 
 
 ## API
 
@@ -115,6 +144,12 @@ Fork this project and make a new PR to start contributing to this project. Here 
 #### DOCUMENTATION
 
 - [ ] Complete example project
+
+## Usecases
+<a href="https://www.talkspirit.com/desktop"><img title="Talkspirit App Desktop" src="https://www.talkspirit.com/images/logo_talkspirit.png" alt="Talkspirit App Desktop" height="25"/></a>
+
+
+Feel free to add yours, making a PR.
 
 ## License
 
