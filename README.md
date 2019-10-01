@@ -64,6 +64,17 @@ menus.on('update', () => {
 </body>
 ```
 
+## API
+
+#### Constructor
+
+```js
+new ElectronTitlebar({ ...options });
+```
+
+ - (optional) **options** - `object`
+ - **Returns** - `ElectronTitlebar`
+
 Properties of `options`:
  - (optional) **darkMode** - `String` - **Light titlebar buttons (for dark backgrounds)**
  - (optional) **color** - `String` - **Icon color (Hex)**
@@ -76,9 +87,7 @@ Properties of `options`:
  - (optional) **onDoubleClick** - `Boolean` - **Double clicking on titlebar enable to resize window in fullscreen mode. Default to false**
  - (optional) **contextMenu** - `Boolean` - **Use internal contextMenu of Electron. Useful if using browserView. Default to false**
 
-*Note:* with a remote contextMenu, there are some UI limitations. Once user first clicked on a tile and context menu opened, the main thread is hanged and user should reclick on an other tile to open the new menu options. 
-
-## API
+*Note:* with a remote contextMenu, there are some UI limitations. Once user first clicked on a tile and context menu opened, the main thread is hanged and user should reclick on an other tile to open the new menu options. Simply hovering on others tiles won't open menu options alike CSS. But it let you use OS based menu and avoid issue where browserView can passes over your menus options.
 
 #### #appendTo
 
@@ -90,23 +99,21 @@ The contextElement argument is your Titlebar region, letting you should where yo
 titlebar.appendTo(contextElement);
 ```
 
- - (optional) **contextElement** - `HTMLElement` - Default: `document.body` creating a context element with position absolute top left, width 100% and z-index 9999 - **Element to which to add the titlebar**
- - **Returns** - Titlebar
+ - (optional) **contextElement** - `HTMLElement` - Default: `document.body` creating a context element with position absolute top left, width 100% and z-index 9999
 
 #### #update
 
-Update the Title Bar. Useful to handle Electron `Menu.on('update', () => titlebar.update(menu))`.
+Update the Titlebar. Useful to handle Electron `Menu.on('update', () => titlebar.update(menu))`.
 
 ```js
 titlebar.update(options);
 ```
 
- - **options** - `Object` - default to previous configuration - **Titlebar Configuration**
- - **Returns** - Titlebar
+ - (optional) **options** - `Object` - options to be updated following ElectronTitlebar available configuration
 
 #### #destroy
 
-Removes the Title Bar.
+Removes the Titlebar.
 
 ```js
 titlebar.destroy();
