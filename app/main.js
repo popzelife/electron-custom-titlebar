@@ -9,11 +9,12 @@ app.on('ready', () => {
         height: 450
     });
 
-    win.on('ready-to-show', () => {
+    win.once('ready-to-show', () => {
         win.focus();
         win.show();
-        win.webContents.openDevTools({ mode: 'undocked' });
     });
+
+    win.webContents.openDevTools({ mode:'detach' });
 
     win.loadURL(`file://${__dirname}/main.html`);
 });

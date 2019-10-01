@@ -335,13 +335,15 @@
     /**
      * DOM
      */
-    titlebar.appendTo();
+    document.addEventListener('DOMContentLoaded', function() {
+      var container = document.querySelector('div#titlebarRegion');
+      titlebar.appendTo(container);
+    });
 
 
     /** Event#close */
     titlebar.on('close', () => {
         console.info('close');
-
         remote.getCurrentWindow().close();
     });
 
@@ -367,16 +369,16 @@
     /** Event#minimize */
     titlebar.on('minimize', () => {
         console.info('minimize');
-
         remote.getCurrentWindow().minimize();
     });
 
     /** Event#maximize */
     titlebar.on('maximize', () => {
         console.info('maximize');
-
         remote.getCurrentWindow().setFullScreen(false);
     });
 </script>
+  <div id="titlebarRegion" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 5">
+  </div>
 </body>
 </html>

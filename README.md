@@ -55,11 +55,13 @@ Properties of `options`:
 
 Add titlebar to your HTML app page. If you use several webviews, you should add it to a persistent app page.
 
+The contextElement argument is your Titlebar region, letting you should where you want to place it.
+
 ```js
 titlebar.appendTo(contextElement);
 ```
 
- - (optional) **contextElement** - `HTMLElement` - Default: `document.body` - **Element to which to add the titlebar**
+ - (optional) **contextElement** - `HTMLElement` - Default: `document.body` creating a context element with position absolute top left, width 100% and z-index 9999 - **Element to which to add the titlebar**
  - **Returns** - Titlebar
 
 #### #update
@@ -100,11 +102,19 @@ titlebar.on('close', function(e) {
 
 Fork this project and make a new PR to start contributing to this project. Here are some example how to contribute.
 
-#### TODO
+#### CORE FEATURES
 
-- Complete example project
-- Include multi BrowserView support for better menu interaction (electron@^5)
-- Better drag support with [electron-drag](https://www.npmjs.com/package/electron-drag)
+- [ ] Responsive on X axis with menu position and width
+- [ ] Handle checked items
+
+#### IMPROVEMENTS
+
+- [ ] Include multi BrowserView support for better menu interaction (electron@^5)
+- [ ] Better drag support with [electron-drag](https://www.npmjs.com/package/electron-drag)
+
+#### DOCUMENTATION
+
+- [ ] Complete example project
 
 ## License
 
